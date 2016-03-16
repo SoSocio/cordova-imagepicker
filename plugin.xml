@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+        id="cordova.imagepicker.multiple"
+        version="0.0.1">
+
+  <name>Cordova Multiple Image Picker</name>
+
+  <engines>
+    <engine name="cordova" version=">=3.4.0"/>
+  </engines>
+
+  <js-module src="www/imagepicker.js" name="ImagePicker">
+	  <clobbers target="window.plugins.imagePicker" />
+  </js-module>
+
+  <platform name="android">
+	  <config-file target="config.xml" parent="/*">
+		  <feature name="ImagePicker">
+			  <param name="android-package" value="cordova.imagepicker.multiple.ImagePicker"/>
+		  </feature>
+	  </config-file>
+	  
+	  <resources>
+		  <style name="MIP_theme" parent="Theme.AppCompat.Light.DarkActionBar">
+			  <item name="windowActionBar">true</item>
+			  <item name="windowNoTitle">true</item>
+		  </style>
+	  </resources>
+	  
+	  <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
+	  <source-file src="src/android/ImagePicker.java" target-dir="src/cordova/imagepicker/multiple/"/>
+  </platform>
+
+</plugin>
