@@ -15,10 +15,6 @@ dependencies {
 }
 
 android {
-	defaultConfig {
-        minSdkVersion 15
-    }
-
 	packagingOptions {
 		exclude 'META-INF/DEPENDENCIES.txt'
 		exclude 'META-INF/LICENSE.txt'
