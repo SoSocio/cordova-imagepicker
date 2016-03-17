@@ -11,9 +11,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.io.IOException;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.media.ExifInterface;
 
 public class ImagePicker extends CordovaPlugin {
 	
@@ -94,20 +96,63 @@ public class ImagePicker extends CordovaPlugin {
 
 		@Override
 		public void onPickedSuccessfully(final ArrayList<ImageEntry> images) {
-			ArrayList<String> fileNames = new ArrayList<String>();
+			JSONArray imageArray = new JSONArray();
 			
 			for(int i = 0; i < images.size(); i++) {
-				fileNames.add(images.get(i).path);
+				String filePath = images.get(i).path;
+				int orientation = 1;
+
+				try {
+					orientation = getExifOrientation(filePath);
+				} catch(IOException e) {
+
+				}
+
+				JSONObject imageData = new JSONObject();
+				JSONObject exifData = new JSONObject();
+
+				try {
+					imageData.put("path", filePath);
+				} catch(JSONException e) {
+
+				}
+
+				try {
+					exifData.put("orientation", orientation);
+				} catch(JSONException e) {
+
+				}
+
+				try {
+					imageData.put("exif", exifData);
+				} catch(JSONException e) {
+
+				}
+
+
+				imageArray.put(imageData);
 			}
 			
-			JSONArray res = new JSONArray(fileNames);
-			callbackContext.success(res);
+			callbackContext.success(imageArray);
 		}
 
 		@Override
 		public void onCancel() {
 			//User canceled the pick activity
 			callbackContext.error("Cancelled");
+		}
+
+		private int getExifOrientation(String src) throws IOException {
+			int orientation = 1;
+
+			ExifInterface exif = new ExifInterface(src);
+			String orientationString = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
+			try {
+				orientation = Integer.parseInt(orientationString);
+			}
+			catch(NumberFormatException e){}
+
+			return orientation;
 		}
 	}
 }
