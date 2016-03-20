@@ -25,9 +25,6 @@ ImagePicker.prototype.getPictures = function(options, success, fail) {
 	if(options.albumBackgroundColor) {
 		params.albumBackgroundColor = options.albumBackgroundColor;
 	}
-	if(options.albumBackgroundColor) {
-		params.albumBackgroundColor = options.albumBackgroundColor;
-	}
 	if(options.albumNameTextColor) {
 		params.albumNameTextColor = options.albumNameTextColor;
 	}
@@ -38,13 +35,5 @@ ImagePicker.prototype.getPictures = function(options, success, fail) {
 	return cordova.exec(success, fail, "ImagePicker", "getPictures", [params]);
 };
 
-ImagePicker.install = function() {
-	if(!window.plugins) {
-		window.plugins = {};
-	}
-	
-	window.plugins.imagePicker = new ImagePicker();
-	return window.plugins.imagePicker
-};
-
-cordova.addConstructor(ImagePicker.install);
+if(!window.plugins) window.plugins = {};
+window.plugins.imagePicker = new ImagePicker();
