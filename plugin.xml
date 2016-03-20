@@ -9,20 +9,21 @@
     <engine name="cordova" version=">=3.4.0"/>
   </engines>
 
-  <js-module src="www/imagepicker.js" name="ImagePicker">
-	  <clobbers target="window.plugins.imagePicker" />
+  <js-module src="www/imagepicker.js" name="imagePicker">
+	  <clobbers target="plugins.imagePicker" />
   </js-module>
 
   <platform name="android">
-	  <resources>
-		  <style name="MIP_theme" parent="Theme.AppCompat.Light.DarkActionBar">
-			  <item name="windowActionBar">true</item>
-			  <item name="windowNoTitle">true</item>
-		  </style>
-	  </resources>
+	  <config-file target="config.xml" parent="/*">
+		  <feature name="ImagePicker">
+			  <param name="android-package" value="cordova.imagepicker.multiple.ImagePicker" />
+		  </feature>
+	  </config-file>
 	  
 	  <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
 	  <source-file src="src/android/ImagePicker.java" target-dir="src/cordova/imagepicker/multiple/"/>
+
+	  <resource-file src="src/android/res/styles.xml" target-dir="res/values" />
   </platform>
 
 </plugin>
