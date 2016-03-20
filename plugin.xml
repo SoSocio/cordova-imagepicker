@@ -14,12 +14,6 @@
   </js-module>
 
   <platform name="android">
-	  <config-file target="config.xml" parent="/*">
-		  <feature name="ImagePicker">
-			  <param name="android-package" value="cordova.imagepicker.multiple.ImagePicker"/>
-		  </feature>
-	  </config-file>
-	  
 	  <resources>
 		  <style name="MIP_theme" parent="Theme.AppCompat.Light.DarkActionBar">
 			  <item name="windowActionBar">true</item>
