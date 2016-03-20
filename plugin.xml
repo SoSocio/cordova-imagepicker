@@ -23,7 +23,7 @@
 	  <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
 	  <source-file src="src/android/ImagePicker.java" target-dir="src/cordova/imagepicker/multiple/"/>
 
-	  <resource-file src="src/android/res/styles.xml" target-dir="res/values" />
+	  <!--<resource-file src="src/android/res/styles.xml" target-dir="res/values" />-->
   </platform>
 
 </plugin>
