@@ -1,4 +1,4 @@
-/*global cordova,window,console*/
+/* global cordova, window */
 /**
  * An Image Picker plugin for Cordova
  * 
@@ -35,5 +35,13 @@ ImagePicker.prototype.getPictures = function(options, success, fail) {
 	return cordova.exec(success, fail, "ImagePicker", "getPictures", [params]);
 };
 
-if(!window.plugins) window.plugins = {};
-window.plugins.imagePicker = new ImagePicker();
+ImagePicker.install = function() {
+	if(!window.plugins) {
+		window.plugins = {};
+	}
+
+	window.plugins.imagePicker = new ImagePicker();
+	return window.plugins.imagePicker;
+};
+
+cordova.addConstructor(ImagePicker.install);
