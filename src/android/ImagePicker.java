@@ -57,13 +57,15 @@ public class ImagePicker extends CordovaPlugin {
 			}
 			if(this.params.has("albumImagesCountTextColor")) {
 				albumImagesCountTextColor = Color.parseColor(this.params.getString("albumImagesCountTextColor"));
-			}			
+			}
+			
+			int pickMode = limit > 1 ? Picker.PickMode.MULTIPLE_IMAGES : Picker.PickMode.SINGLE_IMAGE;
 			
 			if(this.cordova != null) {
 				// You can change many settings in builder like limit , Pick mode and colors
 				new Picker.Builder(cordova.getActivity(),new MyPickListener())
 					// Library settings
-					.setPickMode(Picker.PickMode.MULTIPLE_IMAGES)
+					.setPickMode(pickMode)
 					.setLimit(limit) // set maximum number of pictures to pick
 					.setVideosEnabled(false) // disable videos support
 					.disableCaptureImageFromCamera() // disable camera
