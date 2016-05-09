@@ -16,11 +16,13 @@ import java.io.IOException;
 import android.app.Activity;
 import android.graphics.Color;
 import android.media.ExifInterface;
-
-public static final int REQUEST_CODE = 0;
-public static final String READ_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE;
+import android.Manifest;
+import android.content.pm.PackageManager;
 
 public class ImagePicker extends CordovaPlugin {
+	
+	public static final int REQUEST_CODE = 0;
+	public static final String READ_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE;
 	
 	private CallbackContext callbackContext;
 	private JSONObject params;
