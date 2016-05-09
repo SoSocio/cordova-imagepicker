@@ -17,6 +17,9 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.media.ExifInterface;
 
+public static final int REQUEST_CODE = 0;
+public static final String READ_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE;
+
 public class ImagePicker extends CordovaPlugin {
 	
 	private CallbackContext callbackContext;
@@ -29,55 +32,60 @@ public class ImagePicker extends CordovaPlugin {
 		this.params = args.getJSONObject(0);
 		
 		if(action.equals("getPictures")) {
-			int limit = 0;
-			int fabBackgroundColor = Color.BLACK;
-			int doneFabIconTintColor = Color.WHITE;
-			int imageBackgroundColorWhenChecked = Color.BLACK;
-			int albumBackgroundColor = Color.BLACK;
-			int albumNameTextColor = Color.WHITE;
-			int albumImagesCountTextColor = Color.WHITE;
-			
-			if(this.params.has("limit")) {
-				limit = this.params.getInt("limit");
-			}
-			if(this.params.has("fabBackgroundColor")) {
-				fabBackgroundColor = Color.parseColor(this.params.getString("fabBackgroundColor"));
-			}
-			if(this.params.has("doneFabIconTintColor")) {
-				doneFabIconTintColor = Color.parseColor(this.params.getString("doneFabIconTintColor"));
-			}
-			if(this.params.has("imageBackgroundColorWhenChecked")) {
-				imageBackgroundColorWhenChecked = Color.parseColor(this.params.getString("imageBackgroundColorWhenChecked"));
-			}
-			if(this.params.has("albumBackgroundColor")) {
-				albumBackgroundColor = Color.parseColor(this.params.getString("albumBackgroundColor"));
-			}
-			if(this.params.has("albumNameTextColor")) {
-				albumNameTextColor = Color.parseColor(this.params.getString("albumNameTextColor"));
-			}
-			if(this.params.has("albumImagesCountTextColor")) {
-				albumImagesCountTextColor = Color.parseColor(this.params.getString("albumImagesCountTextColor"));
-			}
-			
-			if(this.cordova != null) {
-				// You can change many settings in builder like limit , Pick mode and colors
-				new Picker.Builder(cordova.getActivity(),new MyPickListener())
-					// Library settings
-					.setPickMode(limit > 1 ? Picker.PickMode.MULTIPLE_IMAGES : Picker.PickMode.SINGLE_IMAGE)
-					.setLimit(limit) // set maximum number of pictures to pick
-					.setVideosEnabled(false) // disable videos support
-					.disableCaptureImageFromCamera() // disable camera
-					
-					// Theme colors
-					.setFabBackgroundColor(fabBackgroundColor) // floating action button background color
-					.setDoneFabIconTintColor(doneFabIconTintColor) // floating action icon color
-					.setImageBackgroundColorWhenChecked(imageBackgroundColorWhenChecked) // border around selected image
-					.setAlbumBackgroundColor(albumBackgroundColor) // album title bar background color
-					.setAlbumNameTextColor(albumNameTextColor) // album title bar text color
-					.setAlbumImagesCountTextColor(albumImagesCountTextColor) // album title bar images count number color
-					
-					.build()
-					.startActivity();
+			if(cordova.hasPermission(READ_STORAGE)) {
+				int limit = 0;
+				int fabBackgroundColor = Color.BLACK;
+				int doneFabIconTintColor = Color.WHITE;
+				int imageBackgroundColorWhenChecked = Color.BLACK;
+				int albumBackgroundColor = Color.BLACK;
+				int albumNameTextColor = Color.WHITE;
+				int albumImagesCountTextColor = Color.WHITE;
+
+				if(this.params.has("limit")) {
+					limit = this.params.getInt("limit");
+				}
+				if(this.params.has("fabBackgroundColor")) {
+					fabBackgroundColor = Color.parseColor(this.params.getString("fabBackgroundColor"));
+				}
+				if(this.params.has("doneFabIconTintColor")) {
+					doneFabIconTintColor = Color.parseColor(this.params.getString("doneFabIconTintColor"));
+				}
+				if(this.params.has("imageBackgroundColorWhenChecked")) {
+					imageBackgroundColorWhenChecked = Color.parseColor(this.params.getString("imageBackgroundColorWhenChecked"));
+				}
+				if(this.params.has("albumBackgroundColor")) {
+					albumBackgroundColor = Color.parseColor(this.params.getString("albumBackgroundColor"));
+				}
+				if(this.params.has("albumNameTextColor")) {
+					albumNameTextColor = Color.parseColor(this.params.getString("albumNameTextColor"));
+				}
+				if(this.params.has("albumImagesCountTextColor")) {
+					albumImagesCountTextColor = Color.parseColor(this.params.getString("albumImagesCountTextColor"));
+				}
+
+				if(this.cordova != null) {
+					// You can change many settings in builder like limit , Pick mode and colors
+					new Picker.Builder(cordova.getActivity(),new MyPickListener())
+						// Library settings
+						.setPickMode(limit > 1 ? Picker.PickMode.MULTIPLE_IMAGES : Picker.PickMode.SINGLE_IMAGE)
+						.setLimit(limit) // set maximum number of pictures to pick
+						.setVideosEnabled(false) // disable videos support
+						.disableCaptureImageFromCamera() // disable camera
+
+						// Theme colors
+						.setFabBackgroundColor(fabBackgroundColor) // floating action button background color
+						.setDoneFabIconTintColor(doneFabIconTintColor) // floating action icon color
+						.setImageBackgroundColorWhenChecked(imageBackgroundColorWhenChecked) // border around selected image
+						.setAlbumBackgroundColor(albumBackgroundColor) // album title bar background color
+						.setAlbumNameTextColor(albumNameTextColor) // album title bar text color
+						.setAlbumImagesCountTextColor(albumImagesCountTextColor) // album title bar images count number color
+
+						.build()
+						.startActivity();
+				}
+				else {
+					getPermission(REQUEST_CODE);
+				}
 			}
 			
 			return true;
@@ -86,11 +94,19 @@ public class ImagePicker extends CordovaPlugin {
 		return false;
 	}
 
-	/*private void getPictures(int max, CallbackContext callbackContext) {
-		//this.callbackContext.success(max);
-		
-		
-	}*/
+	protected void getPermission(int requestCode) {
+		cordova.requestPermission(this, requestCode, READ_STORAGE);
+	}
+
+	public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) throws JSONException {
+		for(int r:grantResults) {
+			if(r == PackageManager.PERMISSION_DENIED) {
+				callbackContext.error("Permissions");
+
+				return;
+			}
+		}
+    }
 	
 	private class MyPickListener implements Picker.PickListener {
 
