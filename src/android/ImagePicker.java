@@ -85,9 +85,9 @@ public class ImagePicker extends CordovaPlugin {
 						.build()
 						.startActivity();
 				}
-				else {
-					getPermission(REQUEST_CODE);
-				}
+			}
+			else {
+				getPermission(REQUEST_CODE);
 			}
 			
 			return true;
