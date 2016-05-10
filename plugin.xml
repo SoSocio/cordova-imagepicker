@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+		xmlns:android="http://schemas.android.com/apk/res/android"
         id="cordova.imagepicker.multiple"
         version="0.0.2">
 
@@ -24,6 +25,10 @@
 	  <source-file src="src/android/ImagePicker.java" target-dir="src/cordova/imagepicker/multiple/"/>
 
 	  <!--<resource-file src="src/android/res/styles.xml" target-dir="res/values" />-->
+
+	  <config-file target="AndroidManifest.xml" parent="/*">
+		  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	  </config-file>
   </platform>
 
 </plugin>
