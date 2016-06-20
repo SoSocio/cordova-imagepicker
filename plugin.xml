@@ -4,31 +4,68 @@
         id="cordova.imagepicker.multiple"
         version="0.0.2">
 
-  <name>Cordova Multiple Image Picker</name>
+	<name>Cordova Multiple Image Picker</name>
 
-  <engines>
-    <engine name="cordova" version=">=3.4.0"/>
-  </engines>
+	<engines>
+		<engine name="cordova" version=">=3.4.0"/>
+	</engines>
 
-  <js-module src="www/imagepicker.js" name="imagePicker">
-	  <clobbers target="plugins.imagePicker" />
-  </js-module>
+	<js-module src="www/imagepicker.js" name="imagePicker">
+		<clobbers target="plugins.imagePicker" />
+	</js-module>
 
-  <platform name="android">
-	  <config-file target="config.xml" parent="/*">
-		  <feature name="ImagePicker">
-			  <param name="android-package" value="cordova.imagepicker.multiple.ImagePicker" />
-		  </feature>
-	  </config-file>
-	  
-	  <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
-	  <source-file src="src/android/ImagePicker.java" target-dir="src/cordova/imagepicker/multiple/"/>
+	<!-- iOS -->
+	<platform name="ios">
+		<config-file target="config.xml" parent="/*">
+			<feature name="ImagePicker">
+				<param name="ios-package" value="SOSPicker"/>
+			</feature>
+		</config-file>
 
-	  <!--<resource-file src="src/android/res/styles.xml" target-dir="res/values" />-->
+		<header-file src="src/ios/SOSPicker.h" />
+		<source-file src="src/ios/SOSPicker.m" />
 
-	  <config-file target="AndroidManifest.xml" parent="/*">
-		  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-	  </config-file>
-  </platform>
+		<header-file src="src/ios/ELCImagePicker/ELCAlbumPickerController.h" />
+		<source-file src="src/ios/ELCImagePicker/ELCAlbumPickerController.m" />
+
+		<header-file src="src/ios/ELCImagePicker/ELCAsset.h" />
+		<source-file src="src/ios/ELCImagePicker/ELCAsset.m" />
+
+		<header-file src="src/ios/ELCImagePicker/ELCAssetCell.h" />
+		<source-file src="src/ios/ELCImagePicker/ELCAssetCell.m" />
+
+		<header-file src="src/ios/ELCImagePicker/ELCAssetPickerFilterDelegate.h" />
+		<header-file src="src/ios/ELCImagePicker/ELCAssetSelectionDelegate.h" />
+
+		<header-file src="src/ios/ELCImagePicker/ELCAssetTablePicker.h" />
+		<source-file src="src/ios/ELCImagePicker/ELCAssetTablePicker.m" />
+
+		<header-file src="src/ios/ELCImagePicker/ELCImagePickerController.h" />
+		<source-file src="src/ios/ELCImagePicker/ELCImagePickerController.m" />
+
+		<resource-file src="src/ios/ELCImagePicker/Resources/ELCAlbumPickerController.xib" />
+		<resource-file src="src/ios/ELCImagePicker/Resources/ELCAssetPicker.xib" />
+		<resource-file src="src/ios/ELCImagePicker/Resources/ELCAssetTablePicker.xib" />
+		<resource-file src="src/ios/ELCImagePicker/Resources/Overlay.png" />
+		<resource-file src="src/ios/ELCImagePicker/Resources/Overlay@2x.png" />
+	</platform>
+
+	<!-- Android -->
+	<platform name="android">
+		<config-file target="config.xml" parent="/*">
+			<feature name="ImagePicker">
+				<param name="android-package" value="cordova.imagepicker.multiple.ImagePicker" />
+			</feature>
+		</config-file>
+
+		<framework src="src/android/build.gradle" custom="true" type="gradleReference" />
+		<source-file src="src/android/ImagePicker.java" target-dir="src/cordova/imagepicker/multiple/"/>
+
+		<!--<resource-file src="src/android/res/styles.xml" target-dir="res/values" />-->
+
+		<config-file target="AndroidManifest.xml" parent="/*">
+			<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+		</config-file>
+	</platform>
 
 </plugin>
